@@ -38,3 +38,7 @@ target/
 hooks/pre-push
 null/
 rerun/
+
+# Java
+build/
+out/
