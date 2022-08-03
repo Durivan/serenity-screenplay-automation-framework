@@ -2,42 +2,47 @@ package com.ivanduri.tasks.api;
 
 import com.ivanduri.models.User;
 import com.ivanduri.questions.api.commons.ResponseStatusCode;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.ivanduri.repository.user.UserRepository;
+import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.rest.SerenityRest;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Post;
 import org.apache.http.HttpStatus;
 
-import static com.ivanduri.utils.enums.EnumResources.USERS;
-import static com.ivanduri.utils.enums.EnumVariablesSesion.CREATE_USER_REQUEST_BODY;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.ivanduri.utils.enums.EnumResources.CREATE_USER;
 import static com.ivanduri.utils.enums.EnumVariablesSesion.CREATE_USER_RESPONSE;
+import static net.serenitybdd.core.environment.ConfiguredEnvironment.getEnvironmentVariables;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.Tasks.instrumented;
 import static net.serenitybdd.screenplay.rest.questions.ResponseConsequence.seeThatResponse;
 import static org.hamcrest.Matchers.equalTo;
 
-@Data
-@AllArgsConstructor
+
 public class CreateUser implements Task {
 
-    private String userName;
-    private String job;
+    private final User user;
+    private final Map<String, String> headers = new HashMap<>();
 
-    public static CreateUser called(String userName, String job){
-        return instrumented(CreateUser.class, userName, job);
+    public CreateUser(User user){
+        this.user = user;
+        headers.put("Authorization", EnvironmentSpecificConfiguration.from(
+                getEnvironmentVariables()).getProperty("access.token"));
+        headers.put("Content-Type", "application/json");
+    }
+
+    public static CreateUser called(Map<String, String> mapUserData){
+        return instrumented(CreateUser.class, new UserRepository().generateRequestCreateUser(mapUserData));
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        User body = new User(userName, job, null, null);
-        actor.remember(CREATE_USER_REQUEST_BODY.getVariableSesion(), body);
-
         actor.attemptsTo(
-                Post.to(USERS.getResource())
-                        .with(request -> request.header("Content-Type", "application/json")
-                                .body(body))
+                Post.to(CREATE_USER.getResource())
+                        .with(request -> request.headers(headers).body(user))
                         .withRequest(request -> request.log().all()));
 
         actor.should(

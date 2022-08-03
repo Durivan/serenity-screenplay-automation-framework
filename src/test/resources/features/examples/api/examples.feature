@@ -4,11 +4,13 @@ Feature: API examples
   Scenario: POST
     Given the "actor" is pointing to reqres.in
     When he creates an user
-      | FirstName | Job     |
-      | Carlos    | Soporte |
+      | User name   | Carlos   |
+      | User gender | male     |
+      | User email  | random   |
+      | User status | inactive |
     Then he should see the expected response of the create user service
 
-  @run
+
   Scenario: GET
     Given the "actor" is pointing to reqres.in
     When he consult to the service for a random user

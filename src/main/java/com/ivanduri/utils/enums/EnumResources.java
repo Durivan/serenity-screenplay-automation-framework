@@ -7,7 +7,9 @@ import lombok.Getter;
 @Getter
 public enum EnumResources {
 
-    USERS("/users");
+    CREATE_USER("/users"),
+    GET_USER("/users/{userId}"),
+    UPDATE_USER("/users/{userId}");
 
     private String resource;
 }

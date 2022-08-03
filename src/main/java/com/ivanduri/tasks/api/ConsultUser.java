@@ -9,6 +9,7 @@ import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Get;
 import org.apache.http.HttpStatus;
 
+import static com.ivanduri.utils.enums.EnumResources.GET_USER;
 import static com.ivanduri.utils.enums.EnumVariablesSesion.CONSULT_USER_RESPONSE;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -28,7 +29,7 @@ public class ConsultUser implements Task {
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Get.resource("/users/{userId}")
+                Get.resource(GET_USER.getResource())
                         .with(request -> request.header("Content-Type", "application/json")
                                 .pathParam("userId", id))
                         .withRequest(request -> request.log().all())
