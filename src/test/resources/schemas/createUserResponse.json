@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "title": "Root Schema",
+  "type": "object",
+  "default": {},
+  "required": [
+    "id",
+    "name",
+    "email",
+    "gender",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "title": "The id Schema",
+      "type": "integer",
+      "default": 0
+    },
+    "name": {
+      "title": "The name Schema",
+      "type": "string",
+      "default": ""
+    },
+    "email": {
+      "title": "The email Schema",
+      "type": "string",
+      "default": ""
+    },
+    "gender": {
+      "title": "The gender Schema",
+      "type": "string",
+      "default": ""
+    },
+    "status": {
+      "title": "The status Schema",
+      "type": "string",
+      "default": ""
+    }
+  }
+}

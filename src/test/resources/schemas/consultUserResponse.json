@@ -5,72 +5,37 @@
   "type": "object",
   "default": {},
   "required": [
-    "data",
-    "support"
+    "id",
+    "name",
+    "email",
+    "gender",
+    "status"
   ],
   "properties": {
-    "data": {
-      "title": "The data Schema",
-      "type": "object",
-      "default": {},
-      "required": [
-        "id",
-        "email",
-        "first_name",
-        "last_name",
-        "avatar"
-      ],
-      "properties": {
-        "id": {
-          "title": "The id Schema",
-          "type": "integer",
-          "default": 0
-        },
-        "email": {
-          "title": "The email Schema",
-          "type": "string",
-          "default": ""
-        },
-        "first_name": {
-          "title": "The first_name Schema",
-          "type": "string",
-          "default": ""
-        },
-        "last_name": {
-          "title": "The last_name Schema",
-          "type": "string",
-          "default": ""
-        },
-        "avatar": {
-          "title": "The avatar Schema",
-          "type": "string",
-          "default": ""
-        }
-      }
+    "id": {
+      "title": "The id Schema",
+      "type": "integer",
+      "default": 0
     },
-    "support": {
-      "title": "The support Schema",
-      "type": "object",
-      "default": {},
-      "required": [
-        "url",
-        "text"
-      ],
-      "properties": {
-        "url": {
-          "title": "The url Schema",
-          "type": "string",
-          "default": "",
-          "examples": [
-            "https://reqres.in/#support-heading"
-          ]
-        },
-        "text": {
-          "title": "The text Schema",
-          "type": "string",
-          "default": ""
-        }
-      }
+    "name": {
+      "title": "The name Schema",
+      "type": "string",
+      "default": ""
+    },
+    "email": {
+      "title": "The email Schema",
+      "type": "string",
+      "default": ""
+    },
+    "gender": {
+      "title": "The gender Schema",
+      "type": "string",
+      "default": ""
+    },
+    "status": {
+      "title": "The status Schema",
+      "type": "string",
+      "default": ""
     }
   }
 }

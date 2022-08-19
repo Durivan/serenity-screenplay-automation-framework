@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.ivanduri.utils.enums.EnumResources.CREATE_USER;
-import static com.ivanduri.utils.enums.EnumVariablesSesion.CREATE_USER_RESPONSE;
+import static com.ivanduri.utils.enums.EnumVariablesSesion.*;
 import static net.serenitybdd.core.environment.ConfiguredEnvironment.getEnvironmentVariables;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.Tasks.instrumented;
@@ -50,5 +50,8 @@ public class CreateUser implements Task {
                 seeThat(ResponseStatusCode.obtainedInService(), equalTo(HttpStatus.SC_CREATED)));
 
         actor.remember(CREATE_USER_RESPONSE.getVariableSesion(), SerenityRest.lastResponse().as(User.class));
+        actor.remember(CREATE_USER_RESPONSE_NOT_DESERIALIZED.getVariableSesion(), SerenityRest.lastResponse());
+        actor.remember(USER_ID.getVariableSesion(), SerenityRest.lastResponse().as(User.class).getId());
+
     }
 }

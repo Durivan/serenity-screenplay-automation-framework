@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         features = "src/test/resources/features/examples/",
-        glue = {"com/ivanduri/stepdefinitions"})
+        glue = {"com/ivanduri/stepdefinitions"},
+        tags = "@smoke")
 public class PurchaseRunner {
 }
