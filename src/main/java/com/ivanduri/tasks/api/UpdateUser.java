@@ -13,6 +13,8 @@ import org.apache.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ivanduri.utils.enums.EnumConstants.*;
+import static com.ivanduri.utils.enums.EnumConstants.APPLICATION_JSON;
 import static com.ivanduri.utils.enums.EnumResources.UPDATE_USER;
 import static com.ivanduri.utils.enums.EnumVariablesSesion.*;
 import static net.serenitybdd.core.environment.ConfiguredEnvironment.getEnvironmentVariables;
@@ -30,9 +32,9 @@ public class UpdateUser implements Task {
 
     public UpdateUser(Map<String, String> userNewData){
         this.userNewData = userNewData;
-        headers.put("Authorization", EnvironmentSpecificConfiguration.from(
-                getEnvironmentVariables()).getProperty("access.token"));
-        headers.put("Content-Type", "application/json");
+        headers.put(AUTHORIZATION.getConstantValue(), EnvironmentSpecificConfiguration.from(
+                getEnvironmentVariables()).getProperty(ACCESS_TOKEN.getConstantValue()));
+        headers.put(CONTENT_TYPE.getConstantValue(), APPLICATION_JSON.getConstantValue());
     }
 
     public UpdateUser byId(int userId){
@@ -52,13 +54,11 @@ public class UpdateUser implements Task {
                 Put.to(UPDATE_USER.getResource())
                         .with(request -> request.headers(headers)
                                 .body(newUser)
-                                .pathParam("userId", userId))
+                                .pathParam(USERID.getConstantValue(), userId))
                         .withRequest(request -> request.log().all()));
-
         actor.should(
                 seeThatResponse(response -> response.log().all()),
                 seeThat(ResponseStatusCode.obtainedInService(), equalTo(HttpStatus.SC_OK)));
-
         actor.remember(UPDATE_USER_RESPONSE.getVariableSesion(), SerenityRest.lastResponse().as(User.class));
     }
 }

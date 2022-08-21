@@ -14,6 +14,8 @@ import org.apache.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ivanduri.utils.enums.EnumConstants.*;
+import static com.ivanduri.utils.enums.EnumConstants.APPLICATION_JSON;
 import static com.ivanduri.utils.enums.EnumResources.GET_USER;
 import static com.ivanduri.utils.enums.EnumVariablesSesion.CONSULT_USER_RESPONSE;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -30,9 +32,9 @@ public class ConsultUser implements Task {
 
     public ConsultUser(Integer userId){
         this.userId = userId;
-        headers.put("Authorization", EnvironmentSpecificConfiguration.from(
-                getEnvironmentVariables()).getProperty("access.token"));
-        headers.put("Content-Type", "application/json");
+        headers.put(AUTHORIZATION.getConstantValue(), EnvironmentSpecificConfiguration.from(
+                getEnvironmentVariables()).getProperty(ACCESS_TOKEN.getConstantValue()));
+        headers.put(CONTENT_TYPE.getConstantValue(), APPLICATION_JSON.getConstantValue());
     }
 
     public static ConsultUser byId(int id){
@@ -44,15 +46,13 @@ public class ConsultUser implements Task {
         actor.attemptsTo(
                 Get.resource(GET_USER.getResource())
                         .with(request -> request.headers(headers)
-                                .pathParam("userId", userId))
+                                .pathParam(USERID.getConstantValue(), userId))
                         .withRequest(request -> request.log().all())
         );
-
         actor.should(
                 seeThatResponse(response -> response.log().all()),
                 seeThatResponse(response -> response.assertThat().body(matchesJsonSchemaInClasspath("schemas/consultUserResponse.json"))),
                 seeThat(ResponseStatusCode.obtainedInService(), equalTo(HttpStatus.SC_OK)));
-
         actor.remember(CONSULT_USER_RESPONSE.getVariableSesion(), SerenityRest.lastResponse().as(User.class));
     }
 }

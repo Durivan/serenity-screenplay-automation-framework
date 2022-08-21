@@ -1,6 +1,6 @@
 Feature: Make a purchase
 
-  @smoke
+  @Smoke
   Scenario: Validate the successful purchase of a random product
     Given the user is on the login page
     And he signs in with the following credentials: "standard_user", "secret_sauce"

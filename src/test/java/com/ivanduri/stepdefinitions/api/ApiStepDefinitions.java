@@ -9,19 +9,18 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 import net.thucydides.core.util.EnvironmentVariables;
+
 import java.util.Map;
 
+import static com.ivanduri.utils.enums.EnumConstants.API_BASE_URL;
 import static com.ivanduri.utils.enums.EnumVariablesSesion.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static java.lang.Boolean.TRUE;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ApiStepDefinitions {
@@ -32,7 +31,7 @@ public class ApiStepDefinitions {
     public void theActorIsPointingToTheApi(String actorName) {
         theActorCalled(actorName).whoCan(
                 CallAnApi.at(EnvironmentSpecificConfiguration.from(environmentVariables)
-                        .getProperty("api.base.url")));
+                        .getProperty(API_BASE_URL.getConstantValue())));
     }
 
     @When("he/she/it creates an user")
@@ -46,14 +45,9 @@ public class ApiStepDefinitions {
     public void heShouldSeeTheExpectedResponseOfCreateUserService() {
         User bodyRequest = theActorInTheSpotlight().recall(CREATE_USER_REQUEST_BODY.getVariableSesion());
         User createUserResponse = theActorInTheSpotlight().recall(CREATE_USER_RESPONSE.getVariableSesion());
-        Response createUserResponseNotDeserialized = theActorInTheSpotlight()
-                .recall(CREATE_USER_RESPONSE_NOT_DESERIALIZED.getVariableSesion());
         theActorInTheSpotlight().should(
                 seeThat(TheUser.wasCreatedWithTheCorrectData(bodyRequest, createUserResponse), equalTo(TRUE)));
-        //TODO ver de meter esto en una question
-        assertThat(createUserResponseNotDeserialized.toString(),
-                matchesJsonSchemaInClasspath("schemas/createUserResponse.json"));
-    }
+        }
 
     @When("he updates the user data")
     public void heUpdatesTheUserData(Map<String, String> mapUserData) {
@@ -67,5 +61,13 @@ public class ApiStepDefinitions {
         int userIdUpdated = theActorInTheSpotlight().recall(USER_ID.getVariableSesion());
         theActorInTheSpotlight().attemptsTo(
                 ConsultUser.byId(userIdUpdated));
+    }
+
+    @Then("he should see that the user was updated correctly")
+    public void heShouldSeeThatTheUserWasUpdatedCorrectly() {
+        User bodyRequestUserUpdated = theActorInTheSpotlight().recall(UPDATE_USER_REQUEST_BODY.getVariableSesion());
+        User consultUserResponse = theActorInTheSpotlight().recall(CONSULT_USER_RESPONSE.getVariableSesion());
+        theActorInTheSpotlight().should(
+                seeThat(TheUser.wasCreatedWithTheCorrectData(bodyRequestUserUpdated, consultUserResponse), equalTo(TRUE)));
     }
 }

@@ -13,8 +13,10 @@ import org.apache.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ivanduri.utils.enums.EnumConstants.*;
 import static com.ivanduri.utils.enums.EnumResources.CREATE_USER;
 import static com.ivanduri.utils.enums.EnumVariablesSesion.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static net.serenitybdd.core.environment.ConfiguredEnvironment.getEnvironmentVariables;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.Tasks.instrumented;
@@ -29,9 +31,9 @@ public class CreateUser implements Task {
 
     public CreateUser(User user){
         this.user = user;
-        headers.put("Authorization", EnvironmentSpecificConfiguration.from(
-                getEnvironmentVariables()).getProperty("access.token"));
-        headers.put("Content-Type", "application/json");
+        headers.put(AUTHORIZATION.getConstantValue(), EnvironmentSpecificConfiguration.from(
+                getEnvironmentVariables()).getProperty(ACCESS_TOKEN.getConstantValue()));
+        headers.put(CONTENT_TYPE.getConstantValue(), APPLICATION_JSON.getConstantValue());
     }
 
     public static CreateUser called(Map<String, String> mapUserData){
@@ -44,11 +46,10 @@ public class CreateUser implements Task {
                 Post.to(CREATE_USER.getResource())
                         .with(request -> request.headers(headers).body(user))
                         .withRequest(request -> request.log().all()));
-
         actor.should(
                 seeThatResponse(response -> response.log().all()),
+                seeThatResponse(response -> response.assertThat().body(matchesJsonSchemaInClasspath("schemas/createUserResponse.json"))),
                 seeThat(ResponseStatusCode.obtainedInService(), equalTo(HttpStatus.SC_CREATED)));
-
         actor.remember(CREATE_USER_RESPONSE.getVariableSesion(), SerenityRest.lastResponse().as(User.class));
         actor.remember(CREATE_USER_RESPONSE_NOT_DESERIALIZED.getVariableSesion(), SerenityRest.lastResponse());
         actor.remember(USER_ID.getVariableSesion(), SerenityRest.lastResponse().as(User.class).getId());

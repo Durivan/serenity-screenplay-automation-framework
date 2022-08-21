@@ -14,6 +14,7 @@ import net.thucydides.core.util.EnvironmentVariables;
 
 import java.util.Map;
 
+import static com.ivanduri.utils.enums.EnumConstants.BASE_URL;
 import static org.hamcrest.Matchers.containsString;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
@@ -31,7 +32,7 @@ public class PurchaseStepDefinitions {
     public void userOnLoginPage() {
         theActorCalled(USER).wasAbleTo(Open.url(
                 EnvironmentSpecificConfiguration.from(environmentVariables)
-                        .getProperty("base.url")
+                        .getProperty(BASE_URL.getConstantValue())
         ));
     }
 

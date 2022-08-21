@@ -33,7 +33,6 @@ public class UserRepository extends Repository<User> {
         setIfNotNull(user::setGender, userUpdate.getGender());
         setIfNotNull(user::setEmail, userUpdate.getEmail());
         setIfNotNull(user::setStatus, userUpdate.getStatus());
-
         theActorInTheSpotlight()
                 .remember(UPDATE_USER_REQUEST_BODY.getVariableSesion(), user);
         return user;

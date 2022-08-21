@@ -8,6 +8,6 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features/examples/",
         glue = {"com/ivanduri/stepdefinitions"},
-        tags = "@run")
+        tags = "@Smoke")
 public class ApiRunner {
 }
