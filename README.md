@@ -10,7 +10,6 @@
 ## Required tool installations
 
 * Java JDK [download](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
-* Appium [download](https://github.com/appium/appium-desktop/releases/)
 * Gradle [download](https://gradle.org/install/)
 * Git executable [download](https://git-scm.com/downloads)
 
