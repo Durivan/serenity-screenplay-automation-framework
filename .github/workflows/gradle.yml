@@ -42,6 +42,6 @@ jobs:
       env:
         environment: staging
       with:
-        arguments: clean test -D"cucumber.filter.tags=@Smoke" Aggregate -i --args --no-sandbox
+        arguments: clean test -D"cucumber.filter.tags=@Smoke" Aggregate -i -PchromeOptions.args=--no-sandbox
         gradle-version: 7.0.2
       id: gradle
