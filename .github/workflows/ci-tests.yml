@@ -46,8 +46,14 @@ jobs:
         gradle-version: 7.0.2
       id: gradle
       
-    - name: Save artifacts
+    - name: Saving artifacts
       uses: actions/upload-artifact@v2
       with:
         name: serenity-reports
         path: target/site/serenity/
+        
+    - name: Deploy test report to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.1
+      with:
+        branch: gh-pages
+        folder: target/site/serenity/
