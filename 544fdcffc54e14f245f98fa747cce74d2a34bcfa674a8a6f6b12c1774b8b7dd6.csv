@@ -1,0 +1,3 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"API examples","Create a new user and validate the integrity of the data that was sent","SUCCESS","2023-04-21T15:35:46.669083Z[Etc/UTC]","0.0","11.13"
+"API examples","Update an user","SUCCESS","2023-04-21T15:35:57.838239Z[Etc/UTC]","0.0","2.22"

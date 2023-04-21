@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite errors="0" failures="0" name="API examples" skipped="0" tests="2" time="13.35" timestamp="2023-04-21 03:35:46"><testcase name="Create a new user and validate the integrity of the data that was sent"/><testcase name="Update an user"/></testsuite>
