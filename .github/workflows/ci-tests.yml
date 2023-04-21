@@ -45,3 +45,9 @@ jobs:
         arguments: clean test -D"cucumber.filter.tags=@Smoke" Aggregate -i -PchromeOptions.args=--no-sandbox
         gradle-version: 7.0.2
       id: gradle
+      
+    - name: Save artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: serenity-reports
+        path: target/site/serenity/
